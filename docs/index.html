@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>aikord-cli Developer Documentation | Open-Source AI Terminal Copilot</title>
+  <meta name="description" content="Official developer documentation for aikord-cli: Open-source, subscription-free AI terminal copilot with local SLMs, DuckDB VSS semantic caching, and ReAct self-healing execution." />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- =======================================================================
+       Header Navigation
+       ======================================================================= -->
+  <header class="site-header">
+    <div class="header-left">
+      <button class="menu-toggle-btn" id="menu-toggle" aria-label="Toggle Navigation Sidebar">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+      <a href="#overview" class="brand-link">
+        <img src="favicon.svg" alt="aikord-cli logo" class="brand-logo" />
+        <span class="brand-title">aikord-cli</span>
+        <span class="badge-version">v1.0.0</span>
+      </a>
+    </div>
+
+    <div class="header-center">
+      <button class="quick-search-btn" id="quick-search-trigger" aria-label="Quick Search">
+        <span class="search-placeholder">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          Search documentation, commands, config...
+        </span>
+        <kbd class="search-shortcut">Ctrl+K</kbd>
+      </button>
+    </div>
+
+    <div class="header-right">
+      <a href="#quickstart" class="nav-link">Quickstart</a>
+      <a href="#architecture" class="nav-link">Architecture</a>
+      <a href="#playground" class="nav-link">Playground</a>
+      <a href="#configurator" class="nav-link">Configurator</a>
+      <a href="https://github.com/Apoorv2402/aikord-cli" target="_blank" rel="noopener noreferrer" class="github-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub
+      </a>
+    </div>
+  </header>
+
+  <!-- =======================================================================
+       Main Layout (Sidebar + Content + TOC)
+       ======================================================================= -->
+  <div class="docs-container">
+
+    <!-- Left Navigation Sidebar -->
+    <aside class="docs-sidebar" id="docs-sidebar">
+      <div class="sidebar-group">
+        <div class="sidebar-group-title">🚀 Getting Started</div>
+        <ul class="sidebar-links">
+          <li><a href="#overview" class="sidebar-link active">Overview</a></li>
+          <li><a href="#quickstart" class="sidebar-link">Quickstart (5 Mins)</a></li>
+          <li><a href="#ollama-setup" class="sidebar-link">Local SLM Setup</a></li>
+          <li><a href="#cloud-setup" class="sidebar-link">Cloud Provider Setup</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-group">
+        <div class="sidebar-group-title">🧠 Core Architecture</div>
+        <ul class="sidebar-links">
+          <li><a href="#context-injection" class="sidebar-link">Terminal RAG</a></li>
+          <li><a href="#semantic-cache" class="sidebar-link">DuckDB Vector Cache</a></li>
+          <li><a href="#complexity-router" class="sidebar-link">Complexity Router</a></li>
+          <li><a href="#safety-architecture" class="sidebar-link">3-Layer Safety Defense</a></li>
+          <li><a href="#self-healing" class="sidebar-link">ReAct Self-Healing</a></li>
+          <li><a href="#telemetry" class="sidebar-link">Telemetry & Metrics</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-group">
+        <div class="sidebar-group-title">💻 CLI Reference</div>
+        <ul class="sidebar-links">
+          <li><a href="#cmd-suggest" class="sidebar-link"><code>aikord suggest</code></a></li>
+          <li><a href="#cmd-explain" class="sidebar-link"><code>aikord explain</code></a></li>
+          <li><a href="#cmd-cache" class="sidebar-link"><code>aikord cache</code></a></li>
+          <li><a href="#cmd-config" class="sidebar-link"><code>aikord config</code></a></li>
+          <li><a href="#cmd-plugin" class="sidebar-link"><code>aikord plugin</code></a></li>
+          <li><a href="#cmd-eval" class="sidebar-link"><code>aikord eval</code></a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-group">
+        <div class="sidebar-group-title">🎛️ Interactive Tools</div>
+        <ul class="sidebar-links">
+          <li><a href="#playground" class="sidebar-link">Terminal Playground <span class="sidebar-pill">Live</span></a></li>
+          <li><a href="#configurator" class="sidebar-link">Visual Configurator</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-group">
+        <div class="sidebar-group-title">🔌 Plugins & Evals</div>
+        <ul class="sidebar-links">
+          <li><a href="#plugins" class="sidebar-link">Plugin Development</a></li>
+          <li><a href="#evals" class="sidebar-link">Evaluation Harness</a></li>
+          <li><a href="#faq" class="sidebar-link">FAQ & Troubleshooting</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="docs-main">
+      <div class="docs-content-wrapper">
+
+        <!-- Hero Section -->
+        <section class="hero-banner" id="overview">
+          <div class="hero-tags">
+            <span class="tag-pill cyan">Apache 2.0 Open Source</span>
+            <span class="tag-pill purple">Sub-10ms Semantic Cache</span>
+            <span class="tag-pill">Python 3.10+</span>
+            <span class="tag-pill">Self-Healing ReAct Loop</span>
+          </div>
+
+          <h1 class="hero-title">
+            Open-Source AI Terminal Copilot <br />
+            <span class="text-gradient">Engineered for Developers</span>
+          </h1>
+
+          <p class="hero-subtitle">
+            <code>aikord-cli</code> is a subscription-free, local-first alternative to GitHub Copilot CLI. It pairs local Small Language Models (SLMs) with DuckDB vector caching, dynamic cloud routing, and self-healing execution to turn plain English into rock-solid terminal commands.
+          </p>
+
+          <div class="hero-quick-install">
+            <div>
+              <span class="cmd-prompt">$</span>
+              <span class="cmd-text">pip install -e . &amp;&amp; aikord suggest "find large files"</span>
+            </div>
+            <button class="copy-btn" aria-label="Copy install command">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              Copy
+            </button>
+          </div>
+        </section>
+
+        <!-- Feature Grid Cards -->
+        <section class="doc-section">
+          <div class="feature-grid">
+            <div class="feature-card">
+              <div class="card-icon">⚡</div>
+              <h2 class="card-title">Sub-10ms Vector Cache</h2>
+              <p class="card-desc">DuckDB VSS with HNSW cosine indexing and local MiniLM embeddings bypasses LLMs entirely for repeated or semantically close queries.</p>
+            </div>
+            <div class="feature-card">
+              <div class="card-icon">🔀</div>
+              <h2 class="card-title">Dynamic Complexity Router</h2>
+              <p class="card-desc">Lightweight MoE heuristic routes simple commands to free local SLMs (Ollama) and complex multi-pipe pipelines to DeepSeek or Groq.</p>
+            </div>
+            <div class="feature-card">
+              <div class="card-icon">🛡️</div>
+              <h2 class="card-title">3-Layer Safety Defense</h2>
+              <p class="card-desc">Guards against destructive data loss (<code>rm -rf</code>, <code>DROP TABLE</code>, force git pushes) through schema contracts and keyword filters.</p>
+            </div>
+            <div class="feature-card">
+              <div class="card-icon">🔄</div>
+              <h2 class="card-title">ReAct Self-Healing Loop</h2>
+              <p class="card-desc">When a command fails, aikord captures <code>stderr</code>, diagnoses the root cause, and autonomously retries with corrected syntax.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section: Quickstart -->
+        <section class="doc-section" id="quickstart">
+          <h2 class="section-heading">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+            Quickstart (5-Minute Setup)
+          </h2>
+          <p>Get up and running with <code>aikord-cli</code> on Linux, macOS, or Windows in minutes.</p>
+
+          <div class="code-window">
+            <div class="code-header">
+              <div class="code-tabs">
+                <button class="code-tab-btn active" data-tab="bash">Bash / Zsh</button>
+                <button class="code-tab-btn" data-tab="pwsh">PowerShell</button>
+                <button class="code-tab-btn" data-tab="cmd">Windows CMD</button>
+              </div>
+              <button class="copy-btn" aria-label="Copy code block">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                Copy
+              </button>
+            </div>
+            <div class="code-body">
+              <pre class="code-pane active" data-pane="bash"><code><span class="token-comment"># 1. Clone repository</span>
+git clone https://github.com/Apoorv2402/aikord-cli.git
+cd aikord-cli
+
+<span class="token-comment"># 2. Create virtual environment &amp; activate</span>
+python3 -m venv .venv
+source .venv/bin/activate
+
+<span class="token-comment"># 3. Install in development mode</span>
+pip install -e .
+
+<span class="token-comment"># 4. Run your first query</span>
+aikord suggest "show memory usage in human readable format"</code></pre>
+
+              <pre class="code-pane" data-pane="pwsh" style="display:none;"><code><span class="token-comment"># 1. Clone repository</span>
+git clone https://github.com/Apoorv2402/aikord-cli.git
+cd aikord-cli
+
+<span class="token-comment"># 2. Create virtual environment &amp; activate</span>
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+
+<span class="token-comment"># 3. Install in development mode</span>
+pip install -e .
+
+<span class="token-comment"># 4. Run your first query</span>
+aikord suggest "find all files modified today"</code></pre>
+
+              <pre class="code-pane" data-pane="cmd" style="display:none;"><code>:: 1. Clone repository
+git clone https://github.com/Apoorv2402/aikord-cli.git
+cd aikord-cli
+
+:: 2. Create virtual environment &amp; activate
+python -m venv .venv
+.venv\Scripts\activate.bat
+
+:: 3. Install in development mode
+pip install -e .
+
+:: 4. Run your first query
+aikord suggest "show network connections"</code></pre>
+            </div>
+          </div>
+
+          <div class="callout tip">
+            <div class="callout-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              Pro Tip: Testing Suite Included
+            </div>
+            Install with <code>pip install -e ".[dev]"</code> to run pytest unit tests and evaluate your active LLM provider against 50 ground-truth examples.
+          </div>
+        </section>
+
+        <!-- Section: Ollama Setup -->
+        <section class="doc-section" id="ollama-setup">
+          <h3 class="sub-heading">Local SLM Setup (Ollama)</h3>
+          <p>For 100% offline, privacy-first execution with zero monthly subscriptions, aikord pairs with <a href="https://ollama.com" target="_blank" rel="noopener noreferrer" style="color:var(--accent-cyan);">Ollama</a>.</p>
+
+          <ol>
+            <li>Download and launch Ollama on your system.</li>
+            <li>Pull the recommended lightweight coding model:
+              <div class="code-window" style="margin: 10px 0 16px;">
+                <div class="code-body"><pre><code>ollama pull qwen2.5-coder:7b</code></pre></div>
+              </div>
+            </li>
+            <li>By default, <code>aikord-cli</code> connects to <code>http://localhost:11434/v1</code>. To test local inference explicitly:
+              <div class="code-window" style="margin: 10px 0 16px;">
+                <div class="code-body"><pre><code>aikord suggest "list all docker containers" --provider local</code></pre></div>
+              </div>
+            </li>
+          </ol>
+        </section>
+
+        <!-- Section: Cloud Setup -->
+        <section class="doc-section" id="cloud-setup">
+          <h3 class="sub-heading">Cloud Provider Setup (DeepSeek / Groq / OpenAI)</h3>
+          <p>When query complexity exceeds the local routing threshold (or when forced via <code>--provider cloud</code>), aikord escalates to cloud models using the standard OpenAI wire format.</p>
+
+          <div class="table-responsive">
+            <table class="doc-table">
+              <thead>
+                <tr>
+                  <th>Provider</th>
+                  <th>Model Default</th>
+                  <th>Setup Command</th>
+                  <th>Latency Profile</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>DeepSeek (Default)</strong></td>
+                  <td><code>deepseek-chat</code></td>
+                  <td><code>aikord config set cloud_api_key "sk-..."</code></td>
+                  <td>~1200ms, lowest cost ($0.27/M)</td>
+                </tr>
+                <tr>
+                  <td><strong>Groq (Ultra-Fast)</strong></td>
+                  <td><code>llama-3.3-70b-versatile</code></td>
+                  <td><code>aikord config set groq_api_key "gsk-..."</code></td>
+                  <td>~300ms TTFT, real-time speed</td>
+                </tr>
+                <tr>
+                  <td><strong>OpenAI</strong></td>
+                  <td><code>gpt-4o-mini</code></td>
+                  <td><code>aikord config set cloud_endpoint "https://api.openai.com/v1"</code></td>
+                  <td>~1400ms, high reliability</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Section: Architecture Deep-Dive -->
+        <section class="doc-section" id="architecture">
+          <h2 class="section-heading">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+            Core Architecture Deep-Dive
+          </h2>
+
+          <h3 class="sub-heading" id="context-injection">1. Terminal RAG &amp; Context Injection</h3>
+          <p>
+            Traditional copilots fail because they guess the user's shell environment. <code>aikord-cli</code> implements zero-overhead context scraping prior to inference via <a href="file:///c:/Users/apoorv/.gemini/antigravity/scratch/aikord-cli/src/core/context.py" style="color:var(--accent-cyan);"><code>src/core/context.py</code></a>:
+          </p>
+          <ul>
+            <li><strong>OS &amp; Version:</strong> Normalizes <code>linux</code>, <code>darwin</code>, or <code>windows</code> and extracts distro tags (e.g. <code>Ubuntu 22.04</code>).</li>
+            <li><strong>Active Shell Dialect:</strong> Probes <code>$SHELL</code>, <code>$PSModulePath</code>, and <code>$COMSPEC</code> to distinguish <code>bash</code>, <code>zsh</code>, <code>fish</code>, <code>powershell</code>, and <code>cmd</code>.</li>
+            <li><strong>Working Directory &amp; Git:</strong> Scrapes current path and runs non-blocking <code>git status --porcelain</code> for unstaged files and active branch.</li>
+          </ul>
+
+          <h3 class="sub-heading" id="semantic-cache">2. DuckDB VSS Vector Cache</h3>
+          <p>
+            Unlike key-value caches that require identical query strings, aikord uses <strong>embedded vector caching</strong> with DuckDB's <code>vss</code> extension:
+          </p>
+          <div class="code-window">
+            <div class="code-body">
+              <pre><code><span class="token-comment">-- DuckDB HNSW Cosine Index Schema</span>
+CREATE TABLE query_cache (
+    id          VARCHAR PRIMARY KEY,
+    query_text  TEXT NOT NULL,
+    embedding   FLOAT[384] NOT NULL,
+    action_json JSON NOT NULL,
+    hit_count   INTEGER DEFAULT 0
+);
+
+CREATE INDEX cache_hnsw_idx ON query_cache 
+USING HNSW (embedding) WITH (metric = 'cosine');</code></pre>
+            </div>
+          </div>
+          <p>Queries achieving a cosine similarity &ge; <strong>0.92</strong> return verified cached commands in <strong>3ms - 8ms</strong> without network requests.</p>
+
+          <h3 class="sub-heading" id="complexity-router">3. Dynamic Complexity Router</h3>
+          <p>The router evaluates query complexity using four weighted heuristic factors:</p>
+          <div class="callout">
+            <div class="callout-title">Complexity Scoring Formula</div>
+            <code>Score = (TokenLength × 0.30) + (PipeCount × 0.25) + (DestructiveOp × 0.30) + (GitRepo × 0.15)</code>
+            <p style="margin-top: 8px; margin-bottom: 0;">Scores &lt; 0.40 route locally; scores &ge; 0.40 escalate to cloud LLMs.</p>
+          </div>
+
+          <h3 class="sub-heading" id="safety-architecture">4. 3-Layer Defense-in-Depth Safety</h3>
+          <p>To eliminate dangerous accidental commands, aikord utilizes three independent safety layers:</p>
+          <ol>
+            <li><strong>JSON Schema Contract:</strong> The LLM is constrained to output <code>is_destructive: bool</code> and <code>risk_level: "low" | "medium" | "high" | "critical"</code>.</li>
+            <li><strong>Pydantic Model Sanitization:</strong> Strips accidental backticks and markdown fences.</li>
+            <li><strong>Deterministic Keyword Filter:</strong> Hardcoded regex check in <code>is_command_destructive()</code> for <code>rm</code>, <code>del</code>, <code>drop</code>, <code>kill</code>, <code>format</code>, <code>dd</code>, <code>git reset --hard</code>.</li>
+          </ol>
+
+          <h3 class="sub-heading" id="self-healing">5. ReAct Self-Healing Loop</h3>
+          <p>
+            When <code>--auto-fix</code> is active, failed commands trigger an automated diagnostic cycle:
+          </p>
+          <ul>
+            <li><strong>Reason:</strong> Submits failed command, exit code, and <code>stderr</code> back to the LLM.</li>
+            <li><strong>Act:</strong> Generates a corrected command conforming to <code>ErrorRemediation</code>.</li>
+            <li><strong>Cycle Detection:</strong> Hashes <code>SHA256(command + stderr[:100])</code> to prevent repetitive looping.</li>
+            <li><strong>Observe:</strong> Retries execution up to <code>max_retries</code> (default: 3).</li>
+          </ul>
+
+          <h3 class="sub-heading" id="telemetry">6. Telemetry &amp; Observability</h3>
+          <p>
+            Written to <code>~/.config/aikord-cli/telemetry.jsonl</code>. Records wall-clock latency, streaming Time-to-First-Token (TTFT), input/output token counts, estimated USD costs, and privacy-preserving SHA256 hashed queries.
+          </p>
+        </section>
+
+        <!-- Section: Interactive Terminal Playground -->
+        <section class="doc-section" id="playground">
+          <h2 class="section-heading">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+            Interactive Terminal Playground
+          </h2>
+          <p>Test the suggestion pipeline, router, safety guards, and self-healing loop directly in your browser.</p>
+
+          <div class="playground-container">
+            <div class="playground-header">
+              <div class="playground-title">
+                <span>🎮 Live Pipeline Simulation</span>
+                <span class="badge-version">Browser Sandbox</span>
+              </div>
+              <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 12px;">
+                Select a preset scenario below or input custom natural language:
+              </p>
+              <div class="playground-presets">
+                <button class="preset-chip active" data-preset="safe">⚡ Safe: Docker stats (Cache Hit)</button>
+                <button class="preset-chip" data-preset="pipeline">🔀 Multi-pipe: Find &amp; wc -l (Cloud)</button>
+                <button class="preset-chip" data-preset="destructive">🚨 Destructive: Clean build (Safety Alert)</button>
+                <button class="preset-chip" data-preset="healing">🔄 ReAct Self-Healing: Port 8080</button>
+              </div>
+            </div>
+
+            <div class="playground-controls">
+              <input type="text" class="playground-input" id="pg-query" value="list running docker containers sorted by memory usage" placeholder="Describe a terminal task..." />
+              <select class="playground-select" id="pg-shell">
+                <option value="bash">Bash (Linux / macOS)</option>
+                <option value="powershell">PowerShell (Windows)</option>
+              </select>
+              <select class="playground-select" id="pg-provider">
+                <option value="auto">Provider: Auto Route</option>
+                <option value="local">Provider: Local (Ollama)</option>
+                <option value="deepseek">Provider: Cloud (DeepSeek)</option>
+              </select>
+              <button class="playground-submit-btn" id="pg-submit-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                Suggest
+              </button>
+            </div>
+
+            <!-- Terminal Window Preview -->
+            <div class="terminal-simulation">
+              <div class="terminal-titlebar">
+                <div class="window-dots">
+                  <div class="dot red"></div>
+                  <div class="dot yellow"></div>
+                  <div class="dot green"></div>
+                </div>
+                <div class="terminal-window-title">aikord terminal preview — monokai theme</div>
+                <div></div>
+              </div>
+              <div class="terminal-viewport" id="terminal-viewport">
+                <!-- Rendered dynamically by app.js -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section: CLI Reference -->
+        <section class="doc-section" id="cli-reference">
+          <h2 class="section-heading">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"></rect><line x1="8" y1="2" x2="8" y2="6"></line><line x1="16" y1="2" x2="16" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            CLI Command Reference
+          </h2>
+
+          <!-- cmd: suggest -->
+          <div style="margin-bottom: 36px;" id="cmd-suggest">
+            <h3 class="sub-heading"><code>aikord suggest</code></h3>
+            <p>Convert natural language into a verified shell command.</p>
+            <div class="code-window">
+              <div class="code-body"><pre><code>aikord suggest [OPTIONS] QUERY</code></pre></div>
+            </div>
+            <div class="table-responsive">
+              <table class="doc-table">
+                <thead>
+                  <tr>
+                    <th>Option</th>
+                    <th>Short</th>
+                    <th>Type</th>
+                    <th>Default</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>--provider</code></td>
+                    <td><code>-p</code></td>
+                    <td>string</td>
+                    <td><code>auto</code></td>
+                    <td>Override complexity router: <code>local</code>, <code>cloud</code>, <code>ollama</code>, <code>deepseek</code>, <code>groq</code>.</td>
+                  </tr>
+                  <tr>
+                    <td><code>--auto-fix</code></td>
+                    <td><code>-f</code></td>
+                    <td>flag</td>
+                    <td><code>False</code></td>
+                    <td>Automatically invoke ReAct self-healing loop on command failure.</td>
+                  </tr>
+                  <tr>
+                    <td><code>--no-cache</code></td>
+                    <td></td>
+                    <td>flag</td>
+                    <td><code>False</code></td>
+                    <td>Bypass semantic DuckDB vector cache and query the LLM directly.</td>
+                  </tr>
+                  <tr>
+                    <td><code>--run</code></td>
+                    <td><code>-r</code></td>
+                    <td>flag</td>
+                    <td><code>False</code></td>
+                    <td>Execute command immediately, skipping interactive confirmation menu.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- cmd: explain -->
+          <div style="margin-bottom: 36px;" id="cmd-explain">
+            <h3 class="sub-heading"><code>aikord explain</code></h3>
+            <p>Provides a detailed, flag-by-flag plain English explanation of any shell command.</p>
+            <div class="code-window">
+              <div class="code-body"><pre><code>aikord explain "tar -czf backup.tar.gz ./src"</code></pre></div>
+            </div>
+          </div>
+
+          <!-- cmd: cache -->
+          <div style="margin-bottom: 36px;" id="cmd-cache">
+            <h3 class="sub-heading"><code>aikord cache</code></h3>
+            <p>Inspect or clear the semantic vector database.</p>
+            <div class="code-window">
+              <div class="code-body"><pre><code><span class="token-comment"># View cache statistics</span>
+aikord cache stats
+
+<span class="token-comment"># Clear all entries</span>
+aikord cache clear --yes</code></pre></div>
+            </div>
+          </div>
+
+          <!-- cmd: config -->
+          <div style="margin-bottom: 36px;" id="cmd-config">
+            <h3 class="sub-heading"><code>aikord config</code></h3>
+            <p>View and manage settings saved to <code>~/.config/aikord-cli/config.json</code>.</p>
+            <div class="code-window">
+              <div class="code-body"><pre><code><span class="token-comment"># Display current config with redacted API keys</span>
+aikord config show
+
+<span class="token-comment"># Set a configuration parameter</span>
+aikord config set cloud_api_key "sk-ant-..."
+aikord config set routing_threshold "0.35"</code></pre></div>
+            </div>
+          </div>
+
+          <!-- cmd: plugin & eval -->
+          <div style="margin-bottom: 36px;" id="cmd-plugin">
+            <h3 class="sub-heading"><code>aikord plugin</code></h3>
+            <p>List all loaded plugin extensions from user and system plugin directories.</p>
+            <div class="code-window"><div class="code-body"><pre><code>aikord plugin list</code></pre></div></div>
+          </div>
+
+          <div style="margin-bottom: 36px;" id="cmd-eval">
+            <h3 class="sub-heading"><code>aikord eval</code></h3>
+            <p>Benchmark your active model against the 50 ground-truth examples.</p>
+            <div class="code-window"><div class="code-body"><pre><code>aikord eval --provider cloud --dataset evals/dataset.json --limit 50</code></pre></div></div>
+          </div>
+        </section>
+
+        <!-- Section: Visual Configurator -->
+        <section class="doc-section" id="configurator">
+          <h2 class="section-heading">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            Visual Config Generator
+          </h2>
+          <p>Customize your aikord setup visually and generate your <code>config.json</code> or <code>.env</code> file.</p>
+
+          <div class="configurator-wrapper">
+            <div class="config-grid">
+              <!-- Controls -->
+              <div>
+                <div class="config-item">
+                  <div class="config-item-header">
+                    <label class="config-label" for="cfg-provider">Primary Local Provider</label>
+                  </div>
+                  <select class="playground-select" id="cfg-provider" style="width: 100%;">
+                    <option value="ollama">Ollama (Local SLM)</option>
+                  </select>
+                </div>
+
+                <div class="config-item">
+                  <div class="config-item-header">
+                    <label class="config-label" for="cfg-cloud-provider">Escalation Cloud Provider</label>
+                  </div>
+                  <select class="playground-select" id="cfg-cloud-provider" style="width: 100%;">
+                    <option value="deepseek">DeepSeek (deepseek-chat)</option>
+                    <option value="groq">Groq (llama-3.3-70b-versatile)</option>
+                    <option value="openai">OpenAI (gpt-4o-mini)</option>
+                  </select>
+                </div>
+
+                <div class="config-item">
+                  <div class="config-item-header">
+                    <label class="config-label" for="cfg-cache-thresh">Cache Hit Threshold</label>
+                    <span class="config-value-badge" id="lbl-cache-thresh">0.92</span>
+                  </div>
+                  <input type="range" class="config-slider" id="cfg-cache-thresh" min="0.80" max="0.99" step="0.01" value="0.92" />
+                  <div class="config-hint">Cosine similarity cutoff for semantic cache hits (0.92 recommended).</div>
+                </div>
+
+                <div class="config-item">
+                  <div class="config-item-header">
+                    <label class="config-label" for="cfg-routing-thresh">Routing Complexity Threshold</label>
+                    <span class="config-value-badge" id="lbl-routing-thresh">0.40</span>
+                  </div>
+                  <input type="range" class="config-slider" id="cfg-routing-thresh" min="0.10" max="0.90" step="0.05" value="0.40" />
+                  <div class="config-hint">Lower = more queries to cloud; Higher = keep more local.</div>
+                </div>
+
+                <div class="config-item">
+                  <div class="config-item-header">
+                    <label class="config-label" for="cfg-max-retries">Max Self-Healing Retries</label>
+                    <span class="config-value-badge" id="lbl-max-retries">3</span>
+                  </div>
+                  <input type="range" class="config-slider" id="cfg-max-retries" min="1" max="5" step="1" value="3" />
+                </div>
+
+                <div class="config-item">
+                  <div class="config-item-header">
+                    <label class="config-label" for="cfg-timeout">Request Timeout</label>
+                    <span class="config-value-badge" id="lbl-timeout">30s</span>
+                  </div>
+                  <input type="range" class="config-slider" id="cfg-timeout" min="10" max="60" step="5" value="30" />
+                </div>
+
+                <div class="config-toggle-row">
+                  <div>
+                    <div class="config-label">Auto-Fix Always Enabled</div>
+                    <div class="config-hint">Run ReAct healing on failures without -f flag</div>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="cfg-autofix" />
+                    <span class="slider-round"></span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Live Output -->
+              <div>
+                <div class="code-window" style="margin-top: 0;">
+                  <div class="code-header">
+                    <span style="font-size: 0.8rem; color: var(--text-muted);">~/.config/aikord-cli/config.json</span>
+                    <button class="copy-btn" data-copy-target="#cfg-json-output">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                      Copy JSON
+                    </button>
+                  </div>
+                  <div class="code-body">
+                    <pre><code id="cfg-json-output"></code></pre>
+                  </div>
+                </div>
+
+                <div class="code-window">
+                  <div class="code-header">
+                    <span style="font-size: 0.8rem; color: var(--text-muted);">Environment Export (.env)</span>
+                    <button class="copy-btn" data-copy-target="#cfg-env-output">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                      Copy Shell
+                    </button>
+                  </div>
+                  <div class="code-body">
+                    <pre><code id="cfg-env-output"></code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section: Plugin Development -->
+        <section class="doc-section" id="plugins">
+          <h2 class="section-heading">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>
+            Plugin Development Guide
+          </h2>
+          <p>
+            Create plugins by subclassing <code>PluginBase</code> and dropping your <code>.py</code> file into <code>~/.config/aikord-cli/plugins/</code>. No core modifications needed.
+          </p>
+
+          <div class="code-window">
+            <div class="code-header">
+              <span style="font-size: 0.8rem; color: var(--text-muted);">~/.config/aikord-cli/plugins/audit_logger.py</span>
+              <button class="copy-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                Copy
+              </button>
+            </div>
+            <div class="code-body">
+              <pre><code><span class="token-keyword">from</span> src.plugins.base_plugin <span class="token-keyword">import</span> PluginBase, PluginManifest
+<span class="token-keyword">from</span> src.agent.executor <span class="token-keyword">import</span> ExecutionResult
+
+<span class="token-keyword">class</span> <span class="token-function">AuditLogPlugin</span>(PluginBase):
+    __manifest__ = PluginManifest(
+        name=<span class="token-string">"audit-logger"</span>,
+        version=<span class="token-string">"1.0.0"</span>,
+        description=<span class="token-string">"Records commands to company SIEM"</span>,
+        author=<span class="token-string">"DevOps Team"</span>,
+        hooks=[<span class="token-string">"post_execute"</span>],
+    )
+
+    <span class="token-keyword">async def</span> <span class="token-function">post_execute</span>(self, result: ExecutionResult, action, context) -> None:
+        <span class="token-keyword">with</span> open(<span class="token-string">"/var/log/aikord_audit.log"</span>, <span class="token-string">"a"</span>) <span class="token-keyword">as</span> f:
+            f.write(f<span class="token-string">"{context.username} | {action.command} | exit:{result.exit_code}\n"</span>)</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section: Evaluation Harness -->
+        <section class="doc-section" id="evals">
+          <h2 class="section-heading">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+            Benchmarking &amp; Evals
+          </h2>
+          <p>
+            <code>aikord-cli</code> includes a formal benchmark harness (<a href="file:///c:/Users/apoorv/.gemini/antigravity/scratch/aikord-cli/evals/run_evals.py" style="color:var(--accent-cyan);"><code>evals/run_evals.py</code></a>) to evaluate model performance across 50 ground-truth scenarios:
+          </p>
+
+          <div class="table-responsive">
+            <table class="doc-table">
+              <thead>
+                <tr>
+                  <th>Benchmark Metric</th>
+                  <th>Target Objective</th>
+                  <th>Significance</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>JSON Parse Rate</strong></td>
+                  <td><strong>&ge; 98.0%</strong></td>
+                  <td>Ensures zero crashes from malformed model tokens.</td>
+                </tr>
+                <tr>
+                  <td><strong>Destructive Recall</strong></td>
+                  <td><strong>100.0%</strong></td>
+                  <td>Zero false negatives allowed on commands that delete or wipe data.</td>
+                </tr>
+                <tr>
+                  <td><strong>Median Latency (p50)</strong></td>
+                  <td><strong>&lt; 2000ms</strong></td>
+                  <td>Keeps the terminal experience crisp and responsive.</td>
+                </tr>
+                <tr>
+                  <td><strong>Tail Latency (p95)</strong></td>
+                  <td><strong>&lt; 5000ms</strong></td>
+                  <td>Maximum allowable latency for complex multi-pipe pipelines.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Section: FAQ & Troubleshooting -->
+        <section class="doc-section" id="faq">
+          <h2 class="section-heading">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            Troubleshooting &amp; FAQ
+          </h2>
+
+          <h3 class="sub-heading">Q: How do I resolve "Connection refused" when running local queries?</h3>
+          <p>Ensure Ollama is running (<code>ollama serve</code>) and that you have pulled the model with <code>ollama pull qwen2.5-coder:7b</code>. Verify reachability with <code>curl http://localhost:11434/api/tags</code>.</p>
+
+          <h3 class="sub-heading">Q: Does the vector cache consume large amounts of disk space?</h3>
+          <p>No. DuckDB's compressed format with <code>all-MiniLM-L6-v2</code> (384 dimensions) requires roughly 1.5 KB per cached command. 10,000 commands take less than 15 MB of disk space.</p>
+
+          <h3 class="sub-heading">Q: What happens if a destructive command is misclassified by the LLM?</h3>
+          <p>aikord's 3-Layer Defense-in-Depth intercepts it. Even if the LLM claims <code>is_destructive: false</code>, the deterministic keyword engine scans for matches against <code>DESTRUCTIVE_PATTERNS</code> and forces a safety confirmation prompt.</p>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- Right Table of Contents (TOC) -->
+    <aside class="docs-toc">
+      <div class="toc-title">On This Page</div>
+      <ul class="toc-list">
+        <li><a href="#overview" class="toc-link">Overview</a></li>
+        <li><a href="#quickstart" class="toc-link">Quickstart</a></li>
+        <li><a href="#ollama-setup" class="toc-link">Local SLM Setup</a></li>
+        <li><a href="#cloud-setup" class="toc-link">Cloud Providers</a></li>
+        <li><a href="#architecture" class="toc-link">Core Architecture</a></li>
+        <li><a href="#playground" class="toc-link">Interactive Playground</a></li>
+        <li><a href="#cli-reference" class="toc-link">CLI Reference</a></li>
+        <li><a href="#configurator" class="toc-link">Config Generator</a></li>
+        <li><a href="#plugins" class="toc-link">Plugins</a></li>
+        <li><a href="#evals" class="toc-link">Evaluations</a></li>
+        <li><a href="#faq" class="toc-link">FAQ</a></li>
+      </ul>
+    </aside>
+
+  </div>
+
+  <!-- Search Modal Overlay -->
+  <div class="search-modal-backdrop" id="search-modal-backdrop">
+    <div class="search-modal">
+      <div class="search-input-wrapper">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" class="search-modal-input" id="search-modal-input" placeholder="Type to search docs, commands, parameters..." autocomplete="off" />
+        <kbd class="search-shortcut">ESC</kbd>
+      </div>
+      <div class="search-results-list" id="search-results">
+        <!-- Injected via app.js -->
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
