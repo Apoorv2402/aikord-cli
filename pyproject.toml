@@ -1,0 +1,63 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "aikord-cli"
+version = "1.0.0"
+description = "Open-source, subscription-free AI terminal copilot with local SLMs, semantic caching, and self-healing execution"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+authors = [{ name = "aikord", email = "hello@aikord.dev" }]
+keywords = ["ai", "cli", "terminal", "llm", "copilot", "ollama", "deepseek"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: Terminals",
+]
+
+dependencies = [
+    # CLI & TUI
+    "typer>=0.12.0",
+    "rich>=13.7.0",
+    # HTTP client (OpenAI-compatible wire format)
+    "httpx>=0.27.0",
+    # Data validation
+    "pydantic>=2.6.0",
+    # Vector database (embedded, no server needed)
+    "duckdb>=0.10.0",
+    # Local embedding model (~80MB, all-MiniLM-L6-v2)
+    "sentence-transformers>=2.7.0",
+    # Async support
+    "anyio>=4.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-mock>=3.12.0",
+]
+
+[project.scripts]
+# After `pip install -e .`, run the tool as: aikord
+aikord = "src.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
