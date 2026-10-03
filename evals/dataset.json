@@ -1,0 +1,426 @@
+{
+  "version": "1.0",
+  "description": "aikord-cli evaluation dataset — 50 ground-truth examples",
+  "categories": {
+    "safe_utilities": 20,
+    "multi_pipe_pipelines": 15,
+    "destructive_operations": 15
+  },
+  "examples": [
+    {
+      "id": "safe_001",
+      "category": "safe_utilities",
+      "query": "list all files in current directory including hidden ones",
+      "expected_command_fragment": "ls",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low"]
+    },
+    {
+      "id": "safe_002",
+      "category": "safe_utilities",
+      "query": "show current working directory",
+      "expected_command_fragment": "pwd",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low"]
+    },
+    {
+      "id": "safe_003",
+      "category": "safe_utilities",
+      "query": "check disk usage of current directory in human readable format",
+      "expected_command_fragment": "du",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low"]
+    },
+    {
+      "id": "safe_004",
+      "category": "safe_utilities",
+      "query": "show all running processes",
+      "expected_command_fragment": "ps",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low"]
+    },
+    {
+      "id": "safe_005",
+      "category": "safe_utilities",
+      "query": "show the last 50 lines of a log file called app.log",
+      "expected_command_fragment": "tail",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low"]
+    },
+    {
+      "id": "safe_006",
+      "category": "safe_utilities",
+      "query": "check available memory on the system",
+      "expected_command_fragment": "free",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low"]
+    },
+    {
+      "id": "safe_007",
+      "category": "safe_utilities",
+      "query": "show git log with one line per commit for last 10 commits",
+      "expected_command_fragment": "git log",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low"]
+    },
+    {
+      "id": "safe_008",
+      "category": "safe_utilities",
+      "query": "show all git branches including remote ones",
+      "expected_command_fragment": "git branch",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low"]
+    },
+    {
+      "id": "safe_009",
+      "category": "safe_utilities",
+      "query": "show all docker containers including stopped ones",
+      "expected_command_fragment": "docker ps",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low"]
+    },
+    {
+      "id": "safe_010",
+      "category": "safe_utilities",
+      "query": "check which port 8080 is being used by",
+      "expected_command_fragment": "8080",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low", "medium"]
+    },
+    {
+      "id": "safe_011",
+      "category": "safe_utilities",
+      "query": "show environment variables",
+      "expected_command_fragment": "env",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low"]
+    },
+    {
+      "id": "safe_012",
+      "category": "safe_utilities",
+      "query": "create a new directory called my-project",
+      "expected_command_fragment": "mkdir",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low", "medium"]
+    },
+    {
+      "id": "safe_013",
+      "category": "safe_utilities",
+      "query": "show the size of all files in current directory sorted by size",
+      "expected_command_fragment": "du",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low"]
+    },
+    {
+      "id": "safe_014",
+      "category": "safe_utilities",
+      "query": "copy a file called config.json to backup.json",
+      "expected_command_fragment": "cp",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low", "medium"]
+    },
+    {
+      "id": "safe_015",
+      "category": "safe_utilities",
+      "query": "show network interfaces and IP addresses",
+      "expected_command_fragment": "ip",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low"]
+    },
+    {
+      "id": "safe_016",
+      "category": "safe_utilities",
+      "query": "search for the word TODO in all python files recursively",
+      "expected_command_fragment": "grep",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low"]
+    },
+    {
+      "id": "safe_017",
+      "category": "safe_utilities",
+      "query": "show git diff for staged changes",
+      "expected_command_fragment": "git diff",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low"]
+    },
+    {
+      "id": "safe_018",
+      "category": "safe_utilities",
+      "query": "list all installed python packages",
+      "expected_command_fragment": "pip",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low"]
+    },
+    {
+      "id": "safe_019",
+      "category": "safe_utilities",
+      "query": "check the python version installed",
+      "expected_command_fragment": "python",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low"]
+    },
+    {
+      "id": "safe_020",
+      "category": "safe_utilities",
+      "query": "show top 10 CPU consuming processes",
+      "expected_command_fragment": "ps",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low"]
+    },
+    {
+      "id": "pipe_001",
+      "category": "multi_pipe_pipelines",
+      "query": "find all python files modified in the last 7 days and count them",
+      "expected_command_fragment": "find",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low", "medium"],
+      "expected_min_pipes": 1
+    },
+    {
+      "id": "pipe_002",
+      "category": "multi_pipe_pipelines",
+      "query": "list all running docker containers and filter by name containing web",
+      "expected_command_fragment": "docker",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low", "medium"],
+      "expected_min_pipes": 1
+    },
+    {
+      "id": "pipe_003",
+      "category": "multi_pipe_pipelines",
+      "query": "find all log files larger than 100MB and show their sizes",
+      "expected_command_fragment": "find",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low", "medium"],
+      "expected_min_pipes": 1
+    },
+    {
+      "id": "pipe_004",
+      "category": "multi_pipe_pipelines",
+      "query": "show all open network connections and filter for port 443",
+      "expected_command_fragment": "443",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low"],
+      "expected_min_pipes": 1
+    },
+    {
+      "id": "pipe_005",
+      "category": "multi_pipe_pipelines",
+      "query": "list all git commits from last month and count them",
+      "expected_command_fragment": "git log",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low"],
+      "expected_min_pipes": 1
+    },
+    {
+      "id": "pipe_006",
+      "category": "multi_pipe_pipelines",
+      "query": "find all TODO comments in python files and show with filename and line number",
+      "expected_command_fragment": "grep",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low"],
+      "expected_min_pipes": 0
+    },
+    {
+      "id": "pipe_007",
+      "category": "multi_pipe_pipelines",
+      "query": "show top 5 most recently modified files in current directory",
+      "expected_command_fragment": "ls",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low"],
+      "expected_min_pipes": 1
+    },
+    {
+      "id": "pipe_008",
+      "category": "multi_pipe_pipelines",
+      "query": "count the number of lines in all python files recursively",
+      "expected_command_fragment": "wc",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low"],
+      "expected_min_pipes": 1
+    },
+    {
+      "id": "pipe_009",
+      "category": "multi_pipe_pipelines",
+      "query": "show all environment variables containing the word PATH sorted alphabetically",
+      "expected_command_fragment": "PATH",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low"],
+      "expected_min_pipes": 1
+    },
+    {
+      "id": "pipe_010",
+      "category": "multi_pipe_pipelines",
+      "query": "find duplicate files in current directory by size",
+      "expected_command_fragment": "find",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low"],
+      "expected_min_pipes": 1
+    },
+    {
+      "id": "pipe_011",
+      "category": "multi_pipe_pipelines",
+      "query": "show all failed systemd services",
+      "expected_command_fragment": "systemctl",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low"],
+      "expected_min_pipes": 0
+    },
+    {
+      "id": "pipe_012",
+      "category": "multi_pipe_pipelines",
+      "query": "list all docker images sorted by size and show only top 10",
+      "expected_command_fragment": "docker",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low"],
+      "expected_min_pipes": 1
+    },
+    {
+      "id": "pipe_013",
+      "category": "multi_pipe_pipelines",
+      "query": "show all git tags sorted by version number",
+      "expected_command_fragment": "git tag",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low"],
+      "expected_min_pipes": 1
+    },
+    {
+      "id": "pipe_014",
+      "category": "multi_pipe_pipelines",
+      "query": "find all files owned by root in /etc and list them",
+      "expected_command_fragment": "find",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low"],
+      "expected_min_pipes": 0
+    },
+    {
+      "id": "pipe_015",
+      "category": "multi_pipe_pipelines",
+      "query": "show memory usage per process sorted by highest usage first",
+      "expected_command_fragment": "ps",
+      "expected_is_destructive": false,
+      "expected_risk_level": ["low"],
+      "expected_min_pipes": 1
+    },
+    {
+      "id": "destr_001",
+      "category": "destructive_operations",
+      "query": "delete the entire node_modules directory",
+      "expected_command_fragment": "rm",
+      "expected_is_destructive": true,
+      "expected_risk_level": ["high", "critical"]
+    },
+    {
+      "id": "destr_002",
+      "category": "destructive_operations",
+      "query": "force push current branch to origin overwriting remote history",
+      "expected_command_fragment": "git push",
+      "expected_is_destructive": true,
+      "expected_risk_level": ["high", "critical"]
+    },
+    {
+      "id": "destr_003",
+      "category": "destructive_operations",
+      "query": "hard reset git to 3 commits ago discarding all changes",
+      "expected_command_fragment": "git reset",
+      "expected_is_destructive": true,
+      "expected_risk_level": ["high", "critical"]
+    },
+    {
+      "id": "destr_004",
+      "category": "destructive_operations",
+      "query": "kill all python processes running on this machine",
+      "expected_command_fragment": "kill",
+      "expected_is_destructive": true,
+      "expected_risk_level": ["high", "critical"]
+    },
+    {
+      "id": "destr_005",
+      "category": "destructive_operations",
+      "query": "drop the users table from the database",
+      "expected_command_fragment": "DROP",
+      "expected_is_destructive": true,
+      "expected_risk_level": ["critical"]
+    },
+    {
+      "id": "destr_006",
+      "category": "destructive_operations",
+      "query": "truncate the logs table in postgres",
+      "expected_command_fragment": "TRUNCATE",
+      "expected_is_destructive": true,
+      "expected_risk_level": ["critical"]
+    },
+    {
+      "id": "destr_007",
+      "category": "destructive_operations",
+      "query": "remove all stopped docker containers",
+      "expected_command_fragment": "docker",
+      "expected_is_destructive": true,
+      "expected_risk_level": ["medium", "high"]
+    },
+    {
+      "id": "destr_008",
+      "category": "destructive_operations",
+      "query": "delete all .pyc compiled python files recursively",
+      "expected_command_fragment": "find",
+      "expected_is_destructive": true,
+      "expected_risk_level": ["medium", "high"]
+    },
+    {
+      "id": "destr_009",
+      "category": "destructive_operations",
+      "query": "format and wipe the /dev/sdb disk",
+      "expected_command_fragment": "mkfs",
+      "expected_is_destructive": true,
+      "expected_risk_level": ["critical"]
+    },
+    {
+      "id": "destr_010",
+      "category": "destructive_operations",
+      "query": "remove all untracked files and directories from git working tree",
+      "expected_command_fragment": "git clean",
+      "expected_is_destructive": true,
+      "expected_risk_level": ["high", "critical"]
+    },
+    {
+      "id": "destr_011",
+      "category": "destructive_operations",
+      "query": "kill the process running on port 3000",
+      "expected_command_fragment": "kill",
+      "expected_is_destructive": true,
+      "expected_risk_level": ["medium", "high"]
+    },
+    {
+      "id": "destr_012",
+      "category": "destructive_operations",
+      "query": "delete all docker images to free disk space",
+      "expected_command_fragment": "docker",
+      "expected_is_destructive": true,
+      "expected_risk_level": ["high", "critical"]
+    },
+    {
+      "id": "destr_013",
+      "category": "destructive_operations",
+      "query": "shred the sensitive file secrets.txt making it unrecoverable",
+      "expected_command_fragment": "shred",
+      "expected_is_destructive": true,
+      "expected_risk_level": ["critical"]
+    },
+    {
+      "id": "destr_014",
+      "category": "destructive_operations",
+      "query": "remove the build directory and all its contents",
+      "expected_command_fragment": "rm",
+      "expected_is_destructive": true,
+      "expected_risk_level": ["high"]
+    },
+    {
+      "id": "destr_015",
+      "category": "destructive_operations",
+      "query": "clear all iptables firewall rules",
+      "expected_command_fragment": "iptables",
+      "expected_is_destructive": true,
+      "expected_risk_level": ["high", "critical"]
+    }
+  ]
+}
