@@ -163,52 +163,74 @@
 
     .hub-card-action {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
+      flex-direction: column;
+      gap: 14px;
       border-top: 1px solid var(--border-subtle);
       padding-top: 18px;
+    }
+
+    .hub-card-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: 0.85rem;
+      flex-wrap: wrap;
+    }
+
+    .hub-card-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: var(--transition-fast);
+      font-weight: 500;
+    }
+
+    .hub-card-links a:hover {
+      color: var(--accent-cyan);
+    }
+
+    .hub-link-sep {
+      color: var(--border-subtle);
+      font-size: 0.75rem;
+      user-select: none;
     }
 
     .hub-btn {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 8px;
       background: var(--grad-cyan-blue);
       color: #07090e;
       font-weight: 700;
       font-size: 0.92rem;
-      padding: 10px 20px;
+      padding: 11px 20px;
       border-radius: var(--radius-md);
       text-decoration: none;
       transition: var(--transition-fast);
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 4px 14px rgba(0, 242, 254, 0.2);
     }
 
     .hub-btn:hover {
       filter: brightness(1.12);
       transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0, 242, 254, 0.35);
     }
 
     .hub-btn.secondary {
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--border-subtle);
-      color: var(--text-secondary);
-      cursor: default;
-    }
-
-    .hub-card-links {
-      display: flex;
-      gap: 12px;
-      font-size: 0.85rem;
-    }
-
-    .hub-card-links a {
       color: var(--text-muted);
-      text-decoration: none;
-      transition: var(--transition-fast);
+      cursor: default;
+      box-shadow: none;
     }
 
-    .hub-card-links a:hover {
-      color: var(--accent-cyan);
+    .hub-btn.secondary:hover {
+      filter: none;
+      transform: none;
+      box-shadow: none;
     }
 
     .pillars-section {
@@ -266,6 +288,16 @@
 
     .footer-links a:hover {
       color: var(--accent-cyan);
+    }
+
+    @media (max-width: 640px) {
+      .hub-card {
+        padding: 24px;
+      }
+      .hub-product-grid {
+        grid-template-columns: 1fr;
+        padding: 0 16px;
+      }
     }
   </style>
 </head>
@@ -345,7 +377,10 @@
       <div class="hub-card-action">
         <div class="hub-card-links">
           <a href="./cli/#quickstart">Quickstart</a>
+          <span class="hub-link-sep">•</span>
           <a href="./cli/#playground">Playground</a>
+          <span class="hub-link-sep">•</span>
+          <a href="./cli/#cli-reference">CLI Ref</a>
         </div>
         <a href="./cli/" class="hub-btn">Launch Docs →</a>
       </div>
@@ -373,7 +408,7 @@
       </div>
       <div class="hub-card-action">
         <div class="hub-card-links">
-          <span style="color: var(--text-dim);">Coming Soon</span>
+          <span style="color: var(--text-dim); font-size: 0.85rem;">Coming Soon</span>
         </div>
         <span class="hub-btn secondary">Preview Specs</span>
       </div>
@@ -401,7 +436,7 @@
       </div>
       <div class="hub-card-action">
         <div class="hub-card-links">
-          <span style="color: var(--text-dim);">In Design</span>
+          <span style="color: var(--text-dim); font-size: 0.85rem;">In Design</span>
         </div>
         <span class="hub-btn secondary">Preview Specs</span>
       </div>
