@@ -2,11 +2,14 @@
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![Docs: Interactive Web Portal](https://img.shields.io/badge/docs-Interactive%20Web%20Portal-cyan.svg)](docs/index.html)
 [![Architecture: Hybrid Local/Cloud](https://img.shields.io/badge/arch-Hybrid%20Local%2FCloud-success.svg)](#-dynamic-complexity-router)
 [![Cache: DuckDB VSS + HNSW](https://img.shields.io/badge/cache-DuckDB%20VSS%20HNSW-orange.svg)](#-semantic-vector-caching-duckdb-vss)
 [![Safety: 3-Layer Defense](https://img.shields.io/badge/safety-3--Layer%20Defense-red.svg)](#-defense-in-depth-safety-architecture)
 
 > **Open-source, subscription-free AI terminal copilot with local SLMs, sub-10ms semantic vector caching, dynamic cloud routing, and self-healing execution.**
+>
+> 🌐 **Interactive Web Documentation & Sandbox**: Open [`docs/index.html`](docs/index.html) or run `python -m http.server 8000 --directory docs` to launch the live Developer Portal with interactive terminal playground, visual configurator, and search.
 
 `aikord-cli` is a fast, privacy-first, developer-centric alternative to proprietary terminal assistants (like GitHub Copilot CLI). It translates natural language intents into accurate, shell-tailored CLI commands, validates safety before execution, monitors performance with zero-overhead telemetry, and automatically repairs broken commands using a **ReAct (Reason + Act)** self-healing loop.
 

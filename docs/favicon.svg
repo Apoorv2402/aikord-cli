@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f2fe" />
+      <stop offset="100%" stop-color="#4facfe" />
+    </linearGradient>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7928ca" />
+      <stop offset="100%" stop-color="#ff0080" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="#0d1117" />
+  <rect x="2" y="2" width="60" height="60" rx="14" stroke="url(#grad1)" stroke-width="1.5" stroke-opacity="0.5" />
+  <!-- Terminal Prompt Symbol -->
+  <path d="M18 22L28 32L18 42" stroke="url(#grad1)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+  <!-- AI Spark / Cursor -->
+  <line x1="34" y1="42" x2="46" y2="42" stroke="url(#grad2)" stroke-width="4" stroke-linecap="round" />
+  <circle cx="44" cy="22" r="3" fill="#00f2fe" />
+  <circle cx="48" cy="18" r="1.5" fill="#4facfe" />
+</svg>
